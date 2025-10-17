@@ -3,15 +3,20 @@
 
 <head>
     <title>2024 Malaysia Population Statistics Visualization</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
     <style>
         body {
             font-family: sans-serif;
-            background-color: #FDFDFD; /* 16进制颜色代码:浅灰,比#FFFFFF更柔和 */
-            margin: 0; /* 外边距 */
-            padding: 1rem; /* 内边距 */
+            background-color: #FDFDFD;
+            /* 16进制颜色代码:浅灰,比#FFFFFF更柔和 */
+            margin: 0;
+            /* 外边距 */
+            padding: 1rem;
+            /* 内边距 */
         }
 
         .vega-bindings {
@@ -52,122 +57,35 @@
 
         .chart-container {
             border: 1px solid #E0E0E0;
-            border-radius: 8px;
-            padding: 1rem;
-            background: #F9F9F9;
-            flex: 1;
-            min-width: 0; /* 防止flex项目在收缩时溢出 */
-        }
-
-        /* ---- 1. 布局容器 (Layout Containers) ---- */
-
-        /* 图文对称布局容器 */
-        .chart-text-row {
-            display: flex;
-            gap: 2rem;
-            align-items: stretch;
-            margin-bottom: 2rem;
-        }
-
-        /* 左图右文布局 */
-        .chart-left {
-            flex: 3;
-        }
-
-        .text-right {
-            flex: 2;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 1rem;
-            border: 1px solid #E0E0E0;
-            border-radius: 8px;
             background: #F9F9F9;
         }
+		
+		/* 小屏及以下 */
+		@media (max-width: 575.98px) {
+			.vega-bindings {
+				display: flex;
+				gap: 12px;
+				align-items: center;
+				flex-wrap: wrap;
+				justify-content: center;
+				margin-bottom: 8px;
+			}
+			#space {
+				height: 90px;
+			}
+		}
 
-        /* 右图左文布局 */
-        .text-left {
-            flex: 2;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 1rem;
-            border: 1px solid #E0E0E0;
-            border-radius: 8px;
-            background: #F9F9F9;
-        }
-
-        .chart-right {
-            flex: 3;
-        }
-
-        /* ---- 2. 布局内的组件 (Components within Layouts) ---- */
-
-        /* 两图并排 + 下方文字说明 */
-        .charts-wrapper {
-            display: flex;
-            gap: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .charts-wrapper .chart-container {
-            flex: 1;
-            min-width: 0;
-        }
-
-        /* 用于图表下方的、带边框的完整文字解释区域 */
-        .explanation-section {
-            padding: 1.5rem;
-            border: 1px solid #E0E0E0;
-            border-radius: 8px;
-            background: #F9F9F9;
-            margin-bottom: 2rem;
-        }
-
-        /* ---- 3. 通用文本样式 (General Typography) ---- */
-        
-        /* 美化所有解释区域的标题 */
-        .text-left h3, .text-right h3, .explanation-section h3 {
-            color: #333;
-            border-bottom: 1px solid #E0E0E0;
-            padding-bottom: 5px;
-            margin-top: 0;
-            margin-bottom: 0.5rem;
-        }
-
-        /* 美化所有解释区域的段落 */
-        .text-left p, .text-right p, .explanation-section p {
-            line-height: 1.6;
-            color: #333;
-            margin-top: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .text-left ul, .text-right ul {
-            line-height: 1.6;
-            color: #333;
-            margin-top: 0.5rem;
-            padding-left: 1.5rem;
-        }
-
-        .text-left li, .text-right li {
-            margin-bottom: 0.5rem;
-        }
-
-        /* ---- 4. 响应式设计 (Responsive Design) ---- */
-
-        /* 在小屏幕上 (<= 900px), 将并排图表变为垂直堆叠 */
-        @media (max-width: 900px) {
-            .chart-text-row,
-            .charts-wrapper {
-                flex-direction: column;
-            }
-
-            .chart-left, .chart-right,
-            .text-left, .text-right {
-                flex: 1;
-            }
-        }
+		/* 中等及以上屏幕 */
+		@media (min-width: 768px) {
+			.vega-bindings {
+				display: flex;
+				gap: 12px;
+				align-items: center;
+				flex-wrap: nowrap;
+				justify-content: center;
+				margin-bottom: 8px;
+			}
+		}
 
         footer {
             margin-top: 2rem;
@@ -179,30 +97,36 @@
     </style>
 </head>
 
-<body>
+<body class="container">
     <div style="text-align: center; border-bottom: 1px solid black; margin-bottom: 0.5rem;">
         <h1 style="margin: 0.5rem;">2024 Malaysia Population Statistics Visualization</h1>
     </div>
-    
+
     <div style="border: 1px solid gray; background: #F9F9F9; border-radius: 0.5rem; padding: 0.5rem; margin-bottom: 0.5rem;">
         Demographics are a very important statistical indicator for a country or region. This website uses Vega-Lite to visualize the population data of various districts in Malaysia with a Choropleth map, aiming to intuitively display the population of each district through spatial visualization. At the same time, we can use the dropdown menu to select different values to explore changes in population across the three dimensions of sex, age, and ethnicity.
     </div>
-    
-    <div id="vis" style="text-align: center; width: 100%; background: lightblue; border-radius: 0.5rem;"></div>
-    
+
+    <div id="vis" style="text-align: center; width: 100%; height: 70vh; background: lightblue; border-radius: 0.5rem;"></div>
+	<div id="space"></div>
     <div id="data-stats" style="margin-top: 0.5rem; padding: 0.5rem; border: 1px solid #ccc; background: #f9f9f9; border-radius: 5px;"></div>
 
     <div class="dashboard-container">
         <div style="text-align: center;">
-            <h2 style="margin: 0.5rem;">Competitor</h2>
+            <h2 style="margin: 0.5rem;">Competitors</h2>
         </div>
-        
-        <div id="static-dashboard">
-            <!-- 第一行: 左图右文 (Stacked Bar Chart) -->
-            <div class="chart-text-row">
-                <div id="stacked-bar-chart" class="chart-container chart-left"></div>
-                <div class="text-right">
+		
+		<hr>
+
+        <div>
+            <div class="gx-1 gy-3 row">
+				<!-- 第一行: 左图右文 (Stacked Bar Chart) -->
+				
+                <div class="card p-4 col-12 col-sm-6 col-md-6 chart-container">
+					<div id="stacked-bar-chart" style="height: 40vh;"></div>
+				</div>
+                <div class="card p-4 col-12 col-sm-6 col-md-6">
                     <h3>Stacked Bar Chart</h3>
+					<hr>
                     <p>
                         This chart visually illustrates the total population of each Malaysian state and its internal ethnic composition.
                     </p>
@@ -212,12 +136,12 @@
                         <li>The chart is sorted in descending order by total population, with the most populous states like Selangor and Johor at the top.</li>
                     </ul>
                 </div>
-            </div>
-            
-            <!-- 第二行: 右图左文 (Donut Chart) -->
-            <div class="chart-text-row">
-                <div class="text-left">
+
+				<!-- 第二行: 右图左文 (Donut Chart) -->
+
+                <div class="col-12 col-sm-6 col-md-6 card p-4"style="text-align: justify;">
                     <h3>Donut Chart</h3>
+					<hr>
                     <p>
                         This pie chart illustrates the proportion of Malaysia's national population across different ethnic groups in 2024, providing a quick overview of the country's primary ethnic composition.
                     </p>
@@ -225,39 +149,48 @@
                         Each sector in the chart represents an ethnic group, with the sector's angle (area) proportional to its population share of the total population. Hovering your mouse over any sector displays the specific population count for that ethnic group. It's easy to see at a glance that the "bumi_malay" group forms the majority, followed by the "chinese" group.
                     </p>
                 </div>
-                <div id="chart-ethnicity" class="chart-container chart-right"></div>
-            </div>
+				<div class="col-12 col-sm-6 col-md-6 card p-4 chart-container">
+					<div id="chart-ethnicity" style="height: 40vh;"></div>
+				</div>
 
-            <!-- 第三行: 两图并排 + 下方文字说明 -->
-            <div class="charts-wrapper">
-                <div id="chart-sex" class="chart-container"></div>
-                <div id="population-pyramid" class="chart-container"></div>
-            </div>
-            <div class="explanation-section">
-                <h3>Bar Chart & Pyramid</h3>
-                <p>
-                    Two charts jointly analyze Malaysia's gender structure in 2024.
-                </p>
-                <p>
-                    The bar chart indicates that in 2024, Malaysia's total male population slightly exceeds the total female population.
-                </p>
-                <p>
-                    The overall shape of the pyramid—broad in the middle, stable at the base, and narrowing at the top—reveals that Malaysia possesses a large working-age population (concentrated between 20 and 44 years old), representing a "demographic dividend" for current economic development. Simultaneously, it foreshadows the aging challenges society will face as this substantial segment of the population gradually enters old age in the future.
-                </p>
+
+				<!-- 第三行: 两图并排 + 下方文字说明，style=text-align两端对齐 -->
+
+				<div class="col-12 col-sm-6 col-md-6 card p-4 chart-container">
+					<div id="chart-sex" style="height: 40vh;"></div>
+				</div>
+				<div class="col-12 col-sm-6 col-md-6 card p-4 chart-container">
+					<div id="population-pyramid" style="height: 40vh;"></div>
+				</div>
+				
+				<div class="col-12 col-sm-12 col-md-12 card p-4"style="text-align: justify;">
+					<h3>Bar Chart & Pyramid</h3>
+					<hr>
+					<p>
+						Two charts jointly analyze Malaysia's gender structure in 2024.
+					</p>
+					<p>
+						The bar chart indicates that in 2024, Malaysia's total male population slightly exceeds the total female population.
+						And the pyramid clearly shows that the male population advantage is concentrated primarily in the young and middle-aged segments (roughly from 0 to 50 years old). Within these age groups, the orange bars representing males are generally slightly longer than the blue bars representing females.
+In the older age brackets (such as those aged 65 and above), the situation reverses. Due to women's typically longer average lifespans, the blue bars representing women begin to exceed the length of the male bars, indicating a greater number of women among the elderly population.
+The pyramid's overall shape—broad in the middle, stable at the base, and narrowing at the top—reveals Malaysia's substantial working-age population (concentrated between 20 and 44 years old), representing a “demographic dividend” for current economic development. Simultaneously, it foreshadows the aging challenges society will face as this large cohort gradually transitions into old age.
+					</p>
+				</div>
+				
             </div>
         </div>
     </div>
-    
+
     <footer>
         <p>
             Created by: Wenjing Xu (Student ID: 35806532)
         </p>
         <p>
             Data Source: <a href="https://open.dosm.gov.my/data-catalogue/population_district" target="_blank">
-            https://open.dosm.gov.my/data-catalogue/population_district</a>
+                https://open.dosm.gov.my/data-catalogue/population_district</a>
         </p>
     </footer>
-    
+
     <script>
         const spec = {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
@@ -266,9 +199,9 @@
                 "type": "fit",
                 "contains": "padding"
             },
-            "height": 500,
+            "height": 520,
             "background": "transparent",
-            "params": [{//定义三个下拉菜单(sex,age,ethnicity)
+            "params": [{ //定义三个下拉菜单(sex,age,ethnicity)
                 "name": "sexParam",
                 "value": "both",
                 "bind": {
@@ -439,18 +372,33 @@
 
         // Static Dashboard Charts
         const dataUrl = 'https://raw.githubusercontent.com/windy27182818/FIT3179/refs/heads/main/population_district_data.json';
-        const chartConfig = { actions: false };
+        const chartConfig = {
+            actions: false
+        };
 
         // Stacked Bar Chart
         const specStackedBar = {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
             "title": "Ethnic Composition by State (2024)",
             "width": "container",
-            "data": { "url": dataUrl },
-            "transform": [
-                { "filter": "datum.sex == 'both' && datum.age == 'overall' && datum.ethnicity != 'overall'" },
+			"height": "container",
+			"background": "transparent",
+			"autosize": {
+                "type": "fit",
+                "contains": "padding"
+            },
+            "data": {
+                "url": dataUrl
+            },
+            "transform": [{
+                    "filter": "datum.sex == 'both' && datum.age == 'overall' && datum.ethnicity != 'overall'"
+                },
                 {
-                    "aggregate": [{ "op": "sum", "field": "population", "as": "total_population" }],
+                    "aggregate": [{
+                        "op": "sum",
+                        "field": "population",
+                        "as": "total_population"
+                    }],
                     "groupby": ["state", "ethnicity"]
                 }
             ],
@@ -471,37 +419,86 @@
                     "field": "ethnicity",
                     "type": "nominal",
                     "title": "Ethnicity",
-                    "scale": { "scheme": "pastel1" }
+                    "scale": {
+                        "scheme": "pastel1"
+                    }
                 },
-                "tooltip": [
-                    { "field": "state", "type": "nominal" },
-                    { "field": "ethnicity", "type": "nominal" },
-                    { "field": "total_population", "type": "quantitative", "title": "Population", "format": ",.1f" }
+                "tooltip": [{
+                        "field": "state",
+                        "type": "nominal"
+                    },
+                    {
+                        "field": "ethnicity",
+                        "type": "nominal"
+                    },
+                    {
+                        "field": "total_population",
+                        "type": "quantitative",
+                        "title": "Population",
+                        "format": ",.1f"
+                    }
                 ]
             }
         };
-        vegaEmbed('#stacked-bar-chart', specStackedBar, { actions: false });
+        vegaEmbed('#stacked-bar-chart', specStackedBar, {
+            actions: false
+        });
 
         // Population by Ethnicity
         const specEthnicity = {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
             "title": "Population by Ethnicity (2024)",
             "width": "container",
-            "data": { "url": dataUrl },
-            "transform": [
-                { "filter": "datum.sex == 'both' && datum.age == 'overall' && datum.ethnicity != 'overall'" },//排除 ethnicity 字段为 'overall' 的总计行,从而只保留具体的种族分类数据用于可视化
-                { "aggregate": [{ "op": "sum", "field": "population", "as": "total_population" }], "groupby": ["ethnicity"] }
+			"height": "container",
+			"background": "transparent",
+			"autosize": {
+                "type": "fit",
+                "contains": "padding"
+            },
+            "data": {
+                "url": dataUrl
+            },
+            "transform": [{
+                    "filter": "datum.sex == 'both' && datum.age == 'overall' && datum.ethnicity != 'overall'"
+                }, //排除 ethnicity 字段为 'overall' 的总计行,从而只保留具体的种族分类数据用于可视化
+                {
+                    "aggregate": [{
+                        "op": "sum",
+                        "field": "population",
+                        "as": "total_population"
+                    }],
+                    "groupby": ["ethnicity"]
+                }
             ],
-            "mark": { "type": "arc", "innerRadius": 50},//arc弧形,innerRadius设置内半径形成环形
+            "mark": {
+                "type": "arc",
+                "innerRadius": 50
+            }, //arc弧形,innerRadius设置内半径形成环形
             "encoding": {
-                "theta": { "field": "total_population", "type": "quantitative", "stack": true },
-                "color": { "field": "ethnicity", "type": "nominal", "title": "Ethnicity",
-                "scale": { "scheme": "pastel1" }   //set3也是浅色系
+                "theta": {
+                    "field": "total_population",
+                    "type": "quantitative",
+                    "stack": true
+                },
+                "color": {
+                    "field": "ethnicity",
+                    "type": "nominal",
+                    "title": "Ethnicity",
+                    "scale": {
+                        "scheme": "pastel1"
+                    } //set3也是浅色系
                 },
                 //field:ethnicity, 表示每个不同的种族(ethnicity)类别将被映射到不同的颜色, type:nominal分配离散的颜色
-                "tooltip": [
-                    { "field": "ethnicity", "type": "nominal" },
-                    { "field": "total_population", "type": "quantitative", "title": "Population (thousands)", "format": ",.1f" }
+                "tooltip": [{
+                        "field": "ethnicity",
+                        "type": "nominal"
+                    },
+                    {
+                        "field": "total_population",
+                        "type": "quantitative",
+                        "title": "Population (thousands)",
+                        "format": ",.1f"
+                    }
                 ]
             }
         };
@@ -512,19 +509,58 @@
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
             "title": "Population by Sex (2024)",
             "width": "container",
-            "data": { "url": dataUrl },
-            "transform": [
-                { "filter": "datum.age == 'overall' && datum.ethnicity == 'overall' && (datum.sex == 'male' || datum.sex == 'female')" },
-                { "aggregate": [{ "op": "sum", "field": "population", "as": "total_population" }], "groupby": ["sex"] }
+			"height": "container",
+			"background": "transparent",
+			"autosize": {
+                "type": "fit",
+                "contains": "padding"
+            },
+            "data": {
+                "url": dataUrl
+            },
+            "transform": [{
+                    "filter": "datum.age == 'overall' && datum.ethnicity == 'overall' && (datum.sex == 'male' || datum.sex == 'female')"
+                },
+                {
+                    "aggregate": [{
+                        "op": "sum",
+                        "field": "population",
+                        "as": "total_population"
+                    }],
+                    "groupby": ["sex"]
+                }
             ],
             "mark": "bar",
             "encoding": {
-                "x": { "field": "sex", "type": "nominal", "title": "Sex", "axis": { "labelAngle": 0 },"sort": ["male", "female"] },
-                "y": { "field": "total_population", "type": "quantitative", "title": "Population (in thousands)" },
-                "color": { "field": "sex", "type": "nominal", "legend": null },
-                "tooltip": [
-                    { "field": "sex", "type": "nominal" },
-                    { "field": "total_population", "type": "quantitative", "title": "Population (thousands)", "format": ",.1f" }
+                "x": {
+                    "field": "sex",
+                    "type": "nominal",
+                    "title": "Sex",
+                    "axis": {
+                        "labelAngle": 0
+                    },
+                    "sort": ["male", "female"]
+                },
+                "y": {
+                    "field": "total_population",
+                    "type": "quantitative",
+                    "title": "Population (in thousands)"
+                },
+                "color": {
+                    "field": "sex",
+                    "type": "nominal",
+                    "legend": null
+                },
+                "tooltip": [{
+                        "field": "sex",
+                        "type": "nominal"
+                    },
+                    {
+                        "field": "total_population",
+                        "type": "quantitative",
+                        "title": "Population (thousands)",
+                        "format": ",.1f"
+                    }
                 ]
             }
         };
@@ -535,11 +571,24 @@
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
             "title": "Malaysia Population Pyramid (2024)",
             "width": "container",
-            "data": { "url": dataUrl },
-            "transform": [
-                { "filter": "(datum.sex == 'female' || datum.sex == 'male') && datum.age != 'overall' && datum.ethnicity == 'overall'" },
+			"height": "container",
+			"background": "transparent",
+			"autosize": {
+                "type": "fit",
+                "contains": "padding"
+            },
+            "data": {
+                "url": dataUrl
+            },
+            "transform": [{
+                    "filter": "(datum.sex == 'female' || datum.sex == 'male') && datum.age != 'overall' && datum.ethnicity == 'overall'"
+                },
                 {
-                    "aggregate": [{ "op": "sum", "field": "population", "as": "total_population" }],
+                    "aggregate": [{
+                        "op": "sum",
+                        "field": "population",
+                        "as": "total_population"
+                    }],
                     "groupby": ["sex", "age"]
                 },
                 {
@@ -550,31 +599,53 @@
             "mark": "bar",
             "encoding": {
                 "y": {
-                    "field": "age", "type": "ordinal", "title": "Age Group",
+                    "field": "age",
+                    "type": "ordinal",
+                    "title": "Age Group",
                     "sort": ["0-4", "5-9", "10-14", "15-19", "20-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80-84", "85+"],
-                    "axis": { "title": null }
+                    "axis": {
+                        "title": null
+                    }
                 },
                 "x": {
                     "field": "signed_population",
                     "type": "quantitative",
                     "title": "Population (in thousands)",
-                    "axis": { "labelExpr": "abs(datum.value)" }
+                    "axis": {
+                        "labelExpr": "abs(datum.value)"
+                    }
                 },
                 "color": {
                     "field": "sex",
                     "type": "nominal",
                     "title": "Sex",
-                    "scale": { "range": ["#1f77b4", "#ff7f0e"] }
+                    "scale": {
+                        "range": ["#1f77b4", "#ff7f0e"]
+                    }
                 },
-                "tooltip": [
-                    { "field": "age", "type": "nominal", "title": "Age Group" },
-                    { "field": "sex", "type": "nominal", "title": "Sex" },
-                    { "field": "total_population", "type": "quantitative", "title": "Population", "format": ",.0f" }
+                "tooltip": [{
+                        "field": "age",
+                        "type": "nominal",
+                        "title": "Age Group"
+                    },
+                    {
+                        "field": "sex",
+                        "type": "nominal",
+                        "title": "Sex"
+                    },
+                    {
+                        "field": "total_population",
+                        "type": "quantitative",
+                        "title": "Population",
+                        "format": ",.0f"
+                    }
                 ]
             }
         };
 
-        vegaEmbed('#population-pyramid', specPyramid, { actions: false });
+        vegaEmbed('#population-pyramid', specPyramid, {
+            actions: false
+        });
     </script>
 </body>
 
